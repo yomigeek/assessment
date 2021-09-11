@@ -44,11 +44,13 @@ const Filter = ({
   return (
     <FilterForm>
       <FilterTitle>{title}</FilterTitle>
-      <FilterSelect value={value} onChange={onChangeHandler}>
+      <FilterSelect defaultValue={value?.toLowerCase()} onChange={onChangeHandler}>
         <option value='select'>Select a Category</option>
         {options.map((optionTitle) => {
           return (
-            <option value={optionTitle?.toLowerCase()}>{optionTitle}</option>
+            <option value={optionTitle?.toLowerCase()} key={optionTitle}>
+              {optionTitle}
+            </option>
           );
         })}
       </FilterSelect>

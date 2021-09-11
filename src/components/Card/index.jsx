@@ -90,8 +90,8 @@ const Card = ({
           <b>Summary:</b> {summary}
         </section>
         <TagContainer>
-          {tagList.map((tag) => {
-            return <Tags title={tag?.name} />;
+          {tagList.map((tag, index) => {
+            return <Tags title={tag?.name} key={index} />;
           })}
         </TagContainer>
       </ArticleInfoBox>

@@ -11,6 +11,7 @@ import Filter from '../../components/Filter';
 import { options } from '../../components/Filter/data';
 
 import { pagination } from '../../helpers/pagination';
+import { getQueryParams } from '../../helpers/getQueryParams';
 import { filterProcessor } from '../../helpers/filterProcessor';
 import { getAllPostsApi } from '../../api/posts';
 import Button from '../../components/Button';
@@ -28,6 +29,17 @@ const LoaderBox = styled.div`
 
 const CenterBox = styled.div`
   text-align: center;
+  padding: 30px;
+`;
+
+const ClearFilter = styled.span`
+  color: #f26351;
+  cursor: pointer;
+  font-size: 14px;
+
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const Home = () => {
@@ -36,7 +48,12 @@ const Home = () => {
   const [viewTotal, setViewTotal] = useState(6);
   const [goFetch, setGoFetch] = useState(false);
   const [filterResults, setFilterResults] = useState(null);
+  const [filterString, setFilterString] = useState(null);
 
+  // Triggers the lifecycle that calls the API mock after 3 seconds
+  setTimeout(() => setGoFetch(true), 3000);
+
+  // Mock API Call to fecth all posts using react query
   const {
     isLoading: getAllPostsLoading,
     error: getAllPostsError,
@@ -44,11 +61,10 @@ const Home = () => {
   } = useQuery('getAllPosts', () => getAllPostsApi(), {
     enabled: false,
     retry: false,
-    onSuccess: (data) => setAllPosts(data?.posts, 'ddd')
+    onSuccess: (data) => setAllPosts(data?.posts)
   });
 
-  setTimeout(() => setGoFetch(true), 3000);
-
+  // Lifecycle that is triggerd after 3seconds timeout
   useEffect(() => {
     if (goFetch) {
       getAllPosts();
@@ -58,6 +74,7 @@ const Home = () => {
     // eslint-disable-next-line
   }, [goFetch]);
 
+  // Handles pagination processing using the pagination helper function
   useEffect(() => {
     if (allPosts?.length > 0) {
       const paginatedValues = pagination(
@@ -69,6 +86,19 @@ const Home = () => {
 
     // eslint-disable-next-line
   }, [allPosts, viewTotal, filterResults]);
+
+  useEffect(() => {
+    checkQueryString();
+  }, []);
+
+  useEffect(() => {
+    if (filterString) {
+      const response = filterProcessor(allPosts, filterString?.toLowerCase());
+
+      setViewTotal(6);
+      setFilterResults(response);
+    }
+  }, [allPosts, filterString]);
 
   const loadMoreHandler = () => {
     if (viewTotal < allPosts?.length) {
@@ -91,6 +121,20 @@ const Home = () => {
     setFilterResults(null);
   };
 
+  const checkQueryString = () => {
+    const value = getQueryParams();
+
+    if (Object.keys(value)?.length > 0) {
+      setFilterString(value?.category);
+    }
+  };
+
+  const showLoadMoreButton = () => {
+    if (!getAllPostsLoading && goFetch && currentPosts?.length > 0) return true;
+
+    if (filterResults?.length > 0) return true;
+  };
+
   return (
     <>
       <Header />
@@ -102,10 +146,20 @@ const Home = () => {
             onChangeHandler={categoryFilterHandler}
             filterTotal={filterResults?.length}
             clearFilterHandler={clearFilterHandler}
+            value={filterString}
           />
         )}
         {getAllPostsError && (
           <Error message='Failed to fetch posts. Refresh Page again' />
+        )}
+        {filterResults?.length < 1 && allPosts?.length > 0 && (
+          <CenterBox>
+            <div>No Result for Category: {filterString}</div>
+            <br />
+            <ClearFilter onClick={clearFilterHandler}>
+              Clear Filter [x]
+            </ClearFilter>
+          </CenterBox>
         )}
         {getAllPostsLoading || !goFetch ? (
           <LoaderBox>
@@ -128,7 +182,8 @@ const Home = () => {
             })}
           </ListBox>
         )}
-        {!getAllPostsLoading && goFetch && (
+
+        {showLoadMoreButton() && (
           <CenterBox>
             <Button title='Load More' actionHandler={loadMoreHandler} />
           </CenterBox>
