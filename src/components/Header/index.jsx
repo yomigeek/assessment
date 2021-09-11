@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeaderBox = styled.div`
@@ -11,12 +12,14 @@ const HeaderBox = styled.div`
 const Header = () => {
   return (
     <HeaderBox>
-      <img
-        src='https://res.cloudinary.com/kugoo/image/upload/v1631362985/webimages/icon1.jpg'
-        alt='logo'
-        height='70px'
-        width='100px'
-      />
+      <Link to='/'>
+        <img
+          src='https://res.cloudinary.com/kugoo/image/upload/v1631362985/webimages/icon1.jpg'
+          alt='logo'
+          height='70px'
+          width='100px'
+        />
+      </Link>
     </HeaderBox>
   );
 };

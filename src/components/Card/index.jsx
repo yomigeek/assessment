@@ -62,9 +62,10 @@ const ArticleTitle = styled.div`
 const TagContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin: 10px 0px;
 `;
 
-const Card = ({ title, name, imgSrc, summary, tagList }) => {
+const Card = ({ title, name, imgSrc, summary, tagList, pubDate }) => {
   return (
     <CardBox>
       <UserInfo>
@@ -73,7 +74,7 @@ const Card = ({ title, name, imgSrc, summary, tagList }) => {
         </UserImgBox>
         <NameBox>
           {name}
-          <DateBox>Date: 2021/09/21</DateBox>
+          <DateBox>Date: {pubDate}</DateBox>
         </NameBox>
       </UserInfo>
       <ArticleInfoBox>
@@ -83,7 +84,7 @@ const Card = ({ title, name, imgSrc, summary, tagList }) => {
         </div>
         <TagContainer>
           <Tags title='Digital ' />
-          <Tags title='Digital Martketing' />
+          <Tags title=' Martketing' />
           <Tags title='Digital Martketing' />
 
         </TagContainer>
