@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import Container from '../../components/Container';
-import { Link } from 'react-router-dom';
 
 const TextBox = styled.div`
   padding: 30px;

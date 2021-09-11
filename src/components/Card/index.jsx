@@ -5,10 +5,10 @@ import Tags from '../Tags';
 const CardBox = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
   transition: 0.3s;
-  height: fit-content;
-  width: 350px;
+  max-height: fit-content;
+  width: 340px;
   background: #fdf4ee;
-  margin: 0px 30px 50px 10px;
+  margin: 0px 20px 50px 20px;
   @media (max-width: 1023px) {
     width: 100%;
   }
@@ -47,7 +47,7 @@ const DateBox = styled.div`
   font-size: 11px;
 `;
 
-const ArticleInfoBox = styled.div`
+const ArticleInfoBox = styled.section`
   margin-top: 12px;
   padding: 10px;
   font-size: 12px;
@@ -62,10 +62,17 @@ const ArticleTitle = styled.div`
 const TagContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 10px 0px;
+  margin: 5px 0px;
 `;
 
-const Card = ({ title, name, imgSrc, summary, tagList, pubDate }) => {
+const Card = ({
+  title = '',
+  name = '',
+  imgSrc = '',
+  summary = '',
+  tagList = [],
+  pubDate
+}) => {
   return (
     <CardBox>
       <UserInfo>
@@ -79,14 +86,13 @@ const Card = ({ title, name, imgSrc, summary, tagList, pubDate }) => {
       </UserInfo>
       <ArticleInfoBox>
         <ArticleTitle>{title}</ArticleTitle>
-        <div>
+        <section>
           <b>Summary:</b> {summary}
-        </div>
+        </section>
         <TagContainer>
-          <Tags title='Digital ' />
-          <Tags title=' Martketing' />
-          <Tags title='Digital Martketing' />
-
+          {tagList.map((tag) => {
+            return <Tags title={tag?.name} />;
+          })}
         </TagContainer>
       </ArticleInfoBox>
     </CardBox>

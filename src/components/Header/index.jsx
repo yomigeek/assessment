@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const HeaderBox = styled.div`
-  height: 70px;
+const HeaderBox = styled.header`
+  height: 80px;
   width: 100%;
   background: #0c3e5d;
   text-align: center;
@@ -16,7 +16,7 @@ const Header = () => {
         <img
           src='https://res.cloudinary.com/kugoo/image/upload/v1631362985/webimages/icon1.jpg'
           alt='logo'
-          height='70px'
+          height='80px'
           width='100px'
         />
       </Link>
