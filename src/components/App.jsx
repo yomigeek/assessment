@@ -1,5 +1,8 @@
-function App() {
-  return <div>{/* Complete the exercise here. */}</div>;
-}
+import React from 'react';
+import Routes from '../routes';
+
+const App = () => {
+  return <Routes />;
+};
 
 export default App;
