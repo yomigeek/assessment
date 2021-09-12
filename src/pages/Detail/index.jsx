@@ -141,7 +141,7 @@ const Detail = ({ match }) => {
                 Author: {singlePost[0]?.author?.name}
                 <br />{' '}
                 <DateBox>
-                  Publish Date:{moment(singlePost[0]?.publishDate).format('L')}
+                  Publish Date: {moment(singlePost[0]?.publishDate).format('L')}
                 </DateBox>
               </NameBox>
               <ArticleTitle>
