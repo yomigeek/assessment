@@ -51,7 +51,7 @@ const Home = () => {
   const [filterString, setFilterString] = useState(null);
 
   // Triggers the lifecycle that calls the API mock after 3 seconds
-  setTimeout(() => setGoFetch(true), 3000);
+  setTimeout(() => setGoFetch(true), 2000);
 
   // Mock API Call to fecth all posts using react query
   const {
@@ -87,10 +87,13 @@ const Home = () => {
     // eslint-disable-next-line
   }, [allPosts, viewTotal, filterResults]);
 
+  // A function that checks the query string of the url on page mounts
   useEffect(() => {
     checkQueryString();
   }, []);
 
+  // Handles the filter processing using the filter processor
+  // based on the availability of a query string
   useEffect(() => {
     if (filterString) {
       const response = filterProcessor(allPosts, filterString?.toLowerCase());
@@ -100,12 +103,16 @@ const Home = () => {
     }
   }, [allPosts, filterString]);
 
+  // This controls the total number of displayed posts to the user on click load
+  // more button
   const loadMoreHandler = () => {
     if (viewTotal < allPosts?.length) {
       setViewTotal(viewTotal + 6);
     }
   };
 
+  // This handles the change of the filter category and
+  // handles the filtering process
   const categoryFilterHandler = (e) => {
     const filterVariable = e.target.value;
 
@@ -116,11 +123,14 @@ const Home = () => {
     }
   };
 
+  // This clears the filter result
   const clearFilterHandler = () => {
     setViewTotal(6);
     setFilterResults(null);
   };
 
+  // This confirms the filter string value and starts the
+  //filter by query string process
   const checkQueryString = () => {
     const value = getQueryParams();
 
@@ -129,6 +139,7 @@ const Home = () => {
     }
   };
 
+  // Handles the display of the load more button based on certain conditions
   const showLoadMoreButton = () => {
     if (!getAllPostsLoading && goFetch && currentPosts?.length > 0) return true;
 
@@ -177,6 +188,7 @@ const Home = () => {
                   key={singlePost?.title}
                   tagList={singlePost?.categories}
                   pubDate={moment(singlePost?.publishDate).format('L')}
+                  postId={singlePost?.id}
                 />
               );
             })}

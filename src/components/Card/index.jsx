@@ -1,6 +1,7 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import Tags from '../Tags';
+import Tags, { TagContainer } from '../Tags';
 
 const CardBox = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
@@ -11,6 +12,10 @@ const CardBox = styled.div`
   margin: 0px 20px 50px 20px;
   @media (max-width: 1023px) {
     width: 100%;
+  }
+  cursor: pointer;
+  :hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -59,22 +64,20 @@ const ArticleTitle = styled.div`
   margin-bottom: 10px;
 `;
 
-const TagContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 5px 0px;
-`;
-
 const Card = ({
   title = '',
   name = '',
   imgSrc = '',
   summary = '',
   tagList = [],
-  pubDate
+  pubDate,
+  postId
 }) => {
+  const history = useHistory();
+  const goToDetail = () => history.push(`/post/${postId}`);
+
   return (
-    <CardBox>
+    <CardBox onClick={goToDetail}>
       <UserInfo>
         <UserImgBox>
           <UserImg src={imgSrc} />
@@ -90,7 +93,7 @@ const Card = ({
           <b>Summary:</b> {summary}
         </section>
         <TagContainer>
-          {tagList.map((tag, index) => {
+          {tagList?.map((tag, index) => {
             return <Tags title={tag?.name} key={index} />;
           })}
         </TagContainer>

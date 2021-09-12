@@ -9,7 +9,13 @@ const TagBox = styled.div`
   background: #0c3e5d;
   border-radius: 50px;
   margin-top: 10px;
-  margin-right: 10px
+  margin-right: 10px;
+`;
+
+export const TagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px 0px;
 `;
 
 const Tags = ({ title }) => {
