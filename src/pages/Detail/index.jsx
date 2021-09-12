@@ -45,10 +45,13 @@ const SectionTwo = styled.div`
   border: 1px solid #e4ebf1;
   padding: 20px;
   margin-bottom: 20px;
+  font-size: 14px;
+  max-height: 250px;
+  overflow: scroll;
+
   @media (max-width: 1023px) {
     width: 100%;
   }
-  font-size: 14px;
 `;
 
 const AvatarBox = styled.div`
@@ -86,6 +89,11 @@ const NotFoundBox = styled.div`
 const DateBox = styled.div`
   font-weight: 400;
   font-size: 12px;
+  margin-top: 10px;
+`;
+
+const HrLine = styled.hr`
+  border-top: 0.2px solid #e4ebf1;
   margin-top: 10px;
 `;
 
@@ -152,6 +160,7 @@ const Detail = ({ match }) => {
             <SectionTwo>
               {singlePost[0]?.summary}
               <br />
+              <HrLine />
               <TagContainer>
                 {singlePost[0]?.categories?.map((tag, index) => {
                   return <Tags title={tag?.name} key={index} />;
